@@ -183,15 +183,7 @@ async function animateTree(canvas, summary, nodes, edges, bestIds, bestVal) {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('width', W); svg.setAttribute('height', H);
   svg.style.cssText = 'position:absolute;top:0;left:0;pointer-events:none;overflow:visible;';
-  
-  const container = canvas.parentElement;
-  await sleep(20); // wait for layout paint
-  const pw = container.clientWidth || W, ph = container.clientHeight || H;
-  const scale = Math.min(pw / W, ph / H, 1);
-  const tx = Math.max(0, (pw - (W * scale)) / 2);
-  const ty = Math.max(0, (ph - (H * scale)) / 2);
-
-  canvas.style.cssText = `position:absolute;top:0;left:0;width:${W}px;height:${H}px;transform-origin:top left;transform:translate(${tx}px,${ty}px) scale(${scale});`;
+  canvas.style.cssText = `position:relative;width:${W}px;height:${H}px;margin: 0 auto;`;
   canvas.appendChild(svg);
 
   const bfs = []; const q = [rootId];
@@ -238,6 +230,7 @@ async function animateTree(canvas, summary, nodes, edges, bestIds, bestVal) {
     summary.style.display = 'block';
     requestAnimationFrame(() => summary.classList.add('bps--visible'));
   }
+  window.dispatchEvent(new Event('resize'));
 }
 
 // Main handler
