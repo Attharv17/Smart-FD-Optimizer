@@ -755,6 +755,7 @@ body {
     height: 400px;
     position: relative;
     overflow: hidden;
+    min-width: 0;
     border: 1.5px solid var(--border);
     border-radius: var(--r-md);
     background: rgba(255, 255, 255, 0.02);
@@ -928,17 +929,18 @@ body {
 .compare-panels {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    align-items: start;
+    gap: 20px;
+    width: 100%;
 }
 
-@media (max-width: 620px) {
+@media (max-width: 900px) {
     .compare-panels {
         grid-template-columns: 1fr;
     }
 }
 
 .compare-panel {
+    height: 100%;
     border: 1.5px solid var(--border);
     border-radius: var(--r-lg);
     padding: 1.25rem;
