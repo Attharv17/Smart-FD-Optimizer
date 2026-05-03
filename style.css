@@ -288,16 +288,16 @@ body {
 }
 
 .input-group input {
-    padding: .72rem 1rem;
-    border: 1.5px solid var(--grey-b);
-    border-radius: var(--r-sm);
+    padding: 13px 14px;
+    border: none;
+    border-radius: 12px;
     font-family: inherit;
     font-size: .95rem;
     font-weight: 500;
     outline: none;
-    background: var(--input-bg);
-    color: var(--text);
-    transition: border-color .2s, background .2s, box-shadow .2s;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    transition: background .2s, box-shadow .2s;
 }
 
 .input-group input::placeholder {
@@ -306,14 +306,12 @@ body {
 }
 
 .input-group input:hover {
-    border-color: var(--blue-b);
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .input-group input:focus {
-    border-color: var(--blue);
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: var(--sh-focus);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 2px var(--accent-red), 0 0 15px rgba(255, 59, 48, 0.35);
 }
 
 /* ── FD rows ────────────────────────────────────────────────── */
