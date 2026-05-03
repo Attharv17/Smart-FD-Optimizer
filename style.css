@@ -368,19 +368,7 @@ body {
     letter-spacing: -.01em;
 }
 
-#fdRows {
-    display: flex;
-    flex-direction: column;
-    gap: .55rem;
-}
 
-.fd-row-inputs {
-    display: flex;
-    align-items: flex-end;
-    gap: .55rem;
-}
-
-.input-group.small { flex: 1; }
 
 /* ── Buttons ────────────────────────────────────────────────── */
 .btn-primary {
@@ -419,43 +407,7 @@ body {
     box-shadow: none;
 }
 
-.btn-ghost {
-    background: transparent;
-    color: var(--blue);
-    border: 1.5px solid var(--blue-b);
-    padding: .42rem .9rem;
-    border-radius: var(--r-sm);
-    font-family: inherit;
-    font-size: .8rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background .18s, border-color .18s, transform .18s, box-shadow .18s;
-}
 
-.btn-ghost:hover {
-    background: var(--blue-lt);
-    border-color: var(--blue);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(37, 99, 235, .12);
-}
-
-.btn-remove {
-    background: #fee2e2;
-    color: #dc2626;
-    border: 1px solid #fca5a5;
-    border-radius: var(--r-sm);
-    width: 2.3rem;
-    height: 2.3rem;
-    cursor: pointer;
-    font-size: .92rem;
-    flex-shrink: 0;
-    transition: background .15s, transform .15s;
-}
-
-.btn-remove:hover {
-    background: #fecaca;
-    transform: scale(1.1);
-}
 
 /* ── Results header ─────────────────────────────────────────── */
 .output-section { gap: 1.1rem; }
