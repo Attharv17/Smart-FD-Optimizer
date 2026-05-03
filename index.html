@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart FD Investment Planner</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <main class="container">
+        <header class="header">
+            <h1>Smart FD Investment Planner</h1>
+            <p>Optimize your fixed deposit returns</p>
+        </header>
+
+        <!-- Input Card -->
+        <section class="card">
+            <div class="input-group">
+                <label for="investmentAmount">Total Investment Amount (₹)</label>
+                <input type="number" id="investmentAmount" placeholder="e.g. 100000">
+            </div>
+            <div class="input-group">
+                <label for="timeHorizon">Time Horizon (Years)</label>
+                <input type="number" id="timeHorizon" placeholder="e.g. 5">
+            </div>
+            <div class="input-group">
+                <label for="emergencyFund">Emergency Fund Amount (₹)</label>
+                <input type="number" id="emergencyFund" value="0">
+            </div>
+            <div class="options-section">
+                <h3>FD Options</h3>
+                <div id="fdRows"></div>
+                <button id="addFdBtn" class="btn-secondary">+ Add FD Option</button>
+            </div>
+            <button id="calculateBtn" class="btn-primary">Calculate Optimal Investment</button>
+        </section>
+
+        <!-- Output Card -->
+        <section class="card output-section">
+            <h2>Results</h2>
+
+            <div id="loadingState" class="loading-state" style="display:none;">
+                <div class="spinner"></div>
+                <span>Contacting backend…</span>
+            </div>
+
+            <div id="errorBanner" class="error-banner" style="display:none;"></div>
+
+            <div id="resultArea" style="display:none;">
+
+                <!-- FD Cards visualization -->
+                <div class="viz-section">
+                    <h3 class="viz-title">FD Options</h3>
+                    <div id="fdCards" class="fd-cards"></div>
+                </div>
+
+                <!-- Step-by-step log -->
+                <div class="viz-section">
+                    <h3 class="viz-title">Allocation Steps</h3>
+                    <div id="stepLog" class="step-log"></div>
+                </div>
+
+                <!-- Summary stats -->
+                <div class="result-grid">
+                    <div class="result-box">
+                        <span class="result-label">Invested</span>
+                        <span class="result-value" id="investedAmountDisplay">-</span>
+                    </div>
+                    <div class="result-box">
+                        <span class="result-label">Emergency Reserved</span>
+                        <span class="result-value" id="emergencyReservedDisplay">-</span>
+                    </div>
+                    <div class="result-box highlight" style="grid-column: span 2;">
+                        <span class="result-label">Total Return</span>
+                        <span class="result-value" id="totalReturnDisplay">-</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+
+</html>
