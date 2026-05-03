@@ -5,82 +5,215 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart FD Investment Planner</title>
+    <meta name="description"
+        content="Optimize your fixed deposit returns with greedy and backtracking algorithms. Compare both side by side.">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <main class="container">
+
         <header class="header">
+            <div class="header-icon">📈</div>
             <h1>Smart FD Investment Planner</h1>
-            <p>Optimize your fixed deposit returns</p>
+            <p>Pick an algorithm, enter your parameters, and optimise your fixed deposit returns.</p>
         </header>
 
-        <!-- Input Card -->
-        <section class="card">
-            <div class="input-group">
-                <label for="investmentAmount">Total Investment Amount (₹)</label>
-                <input type="number" id="investmentAmount" placeholder="e.g. 100000">
+        <!-- ── Input Card ─  -->
+        <section class="card" id="inputCard">
+
+            <!-- Algorithm Mode — prominent card toggle -->
+            <div class="mode-picker">
+                <p class="mode-picker__label">Choose Algorithm</p>
+                <div class="mode-cards" id="modeCards" role="group" aria-label="Algorithm mode">
+
+                    <button class="mode-card active" id="modeGreedy" data-mode="greedy" type="button">
+                        <span class="mc-icon">⚡</span>
+                        <span class="mc-name">Greedy</span>
+                        <span class="mc-desc">Fastest pick</span>
+                    </button>
+
+                    <button class="mode-card" id="modeBacktrack" data-mode="backtracking" type="button">
+                        <span class="mc-icon">🌳</span>
+                        <span class="mc-name">Backtracking</span>
+                        <span class="mc-desc">Optimal search</span>
+                    </button>
+
+                    <button class="mode-card" id="modeCompare" data-mode="compare" type="button">
+                        <span class="mc-icon">⚖️</span>
+                        <span class="mc-name">Compare</span>
+                        <span class="mc-desc">Side-by-side</span>
+                    </button>
+
+                </div>
+                <p id="modeHint" class="mode-hint">Picks the highest-rate FD that fits your horizon — fast and
+                    deterministic.</p>
             </div>
-            <div class="input-group">
-                <label for="timeHorizon">Time Horizon (Years)</label>
-                <input type="number" id="timeHorizon" placeholder="e.g. 5">
+
+            <hr class="divider">
+
+            <!-- Investment params -->
+            <div class="params-grid">
+                <div class="input-group">
+                    <label for="investmentAmount">Total Investment (₹)</label>
+                    <input type="number" id="investmentAmount" placeholder="e.g. 100000" min="1">
+                </div>
+                <div class="input-group">
+                    <label for="timeHorizon">Time Horizon (yrs)</label>
+                    <input type="number" id="timeHorizon" placeholder="e.g. 5" min="1" step="1">
+                </div>
+                <div class="input-group">
+                    <label for="emergencyFund">Emergency Fund (₹)</label>
+                    <input type="number" id="emergencyFund" value="0" min="0">
+                </div>
             </div>
-            <div class="input-group">
-                <label for="emergencyFund">Emergency Fund Amount (₹)</label>
-                <input type="number" id="emergencyFund" value="0">
-            </div>
+
+            <!-- FD options -->
             <div class="options-section">
-                <h3>FD Options</h3>
+                <div class="options-header">
+                    <h3>FD Options</h3>
+                    <button id="addFdBtn" class="btn-ghost" type="button">+ Add Row</button>
+                </div>
                 <div id="fdRows"></div>
-                <button id="addFdBtn" class="btn-secondary">+ Add FD Option</button>
             </div>
-            <button id="calculateBtn" class="btn-primary">Calculate Optimal Investment</button>
+
+            <button id="calculateBtn" class="btn-primary" type="button">
+                <span id="calcBtnLabel">Calculate Optimal Investment</span>
+            </button>
+
         </section>
 
-        <!-- Output Card -->
-        <section class="card output-section">
-            <h2>Results</h2>
+        <!-- ── Results Card ──────────────────────────────────── -->
+        <section class="card output-section" id="outputCard">
 
+            <!-- Results header with strategy badge -->
+            <div class="results-header">
+                <h2>Results</h2>
+                <span id="strategyBadge" class="strategy-badge" style="display:none;"></span>
+            </div>
+
+            <!-- Loading -->
             <div id="loadingState" class="loading-state" style="display:none;">
                 <div class="spinner"></div>
-                <span>Contacting backend…</span>
+                <span id="loadingMsg">Contacting backend…</span>
             </div>
 
             <div id="errorBanner" class="error-banner" style="display:none;"></div>
 
+            <!-- ── Single-mode result ──────────────────────── -->
             <div id="resultArea" style="display:none;">
 
-                <!-- FD Cards visualization -->
-                <div class="viz-section">
+                <!-- Summary stats row -->
+                <div class="stat-row" id="singleStats">
+                    <div class="stat-pill">
+                        <span class="stat-label">Invested</span>
+                        <span class="stat-value" id="investedAmountDisplay">-</span>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="stat-label">Emergency</span>
+                        <span class="stat-value" id="emergencyReservedDisplay">-</span>
+                    </div>
+                    <div class="stat-pill stat-pill--highlight">
+                        <span class="stat-label">Best Return</span>
+                        <span class="stat-value" id="totalReturnDisplay">-</span>
+                    </div>
+                </div>
+
+                <!-- Greedy viz -->
+                <div class="viz-section" id="fdCardsSection">
                     <h3 class="viz-title">FD Options</h3>
                     <div id="fdCards" class="fd-cards"></div>
                 </div>
-
-                <!-- Step-by-step log -->
-                <div class="viz-section">
+                <div class="viz-section" id="stepLogSection">
                     <h3 class="viz-title">Allocation Steps</h3>
                     <div id="stepLog" class="step-log"></div>
                 </div>
 
-                <!-- Summary stats -->
-                <div class="result-grid">
-                    <div class="result-box">
-                        <span class="result-label">Invested</span>
-                        <span class="result-value" id="investedAmountDisplay">-</span>
+                <!-- Backtracking tree viz -->
+                <div class="viz-section" id="treeSection" style="display:none;">
+                    <h3 class="viz-title">Decision Tree Exploration</h3>
+                    <div class="tree-legend">
+                        <span class="legend-dot legend-root"></span><span>Root</span>
+                        <span class="legend-dot legend-best"></span><span>Best Path</span>
+                        <span class="legend-dot legend-explored"></span><span>Explored</span>
+                        <span class="legend-dot legend-rejected"></span><span>Rejected</span>
                     </div>
-                    <div class="result-box">
-                        <span class="result-label">Emergency Reserved</span>
-                        <span class="result-value" id="emergencyReservedDisplay">-</span>
+                    <div id="treeContainer" class="tree-container">
+                        <div id="treeCanvas" class="tree-canvas"></div>
                     </div>
-                    <div class="result-box highlight" style="grid-column: span 2;">
-                        <span class="result-label">Total Return</span>
-                        <span class="result-value" id="totalReturnDisplay">-</span>
-                    </div>
+                    <div id="bestPathSummary" class="best-path-summary" style="display:none;"></div>
                 </div>
 
             </div>
+
+            <!-- ── Compare mode result ────────────────────── -->
+            <div id="compareArea" style="display:none;">
+
+                <div class="compare-stat-row">
+                    <div class="stat-pill">
+                        <span class="stat-label">Invested</span>
+                        <span class="stat-value" id="cmpInvested">-</span>
+                    </div>
+                    <div class="stat-pill">
+                        <span class="stat-label">Emergency</span>
+                        <span class="stat-value" id="cmpEmergency">-</span>
+                    </div>
+                </div>
+
+                <div class="compare-panels">
+
+                    <!-- Left — Greedy -->
+                    <div class="compare-panel" id="cmpGreedyPanel">
+                        <div class="cp-header cp-header--greedy">
+                            <span class="cp-icon">⚡</span>
+                            <span class="cp-title">Greedy</span>
+                            <span class="cp-badge" id="cmpGreedyWinner" style="display:none;">🏆 Winner</span>
+                        </div>
+                        <div class="cp-return">
+                            <span class="cp-return-label">Return</span>
+                            <span class="cp-return-value" id="cmpGreedyReturn">-</span>
+                        </div>
+                        <div class="viz-section" style="margin-top:1rem;">
+                            <h3 class="viz-title">FD Cards</h3>
+                            <div id="cmpFdCards" class="fd-cards"></div>
+                        </div>
+                        <div class="viz-section">
+                            <h3 class="viz-title">Steps</h3>
+                            <div id="cmpStepLog" class="step-log"></div>
+                        </div>
+                    </div>
+
+                    <!-- Right — Backtracking -->
+                    <div class="compare-panel" id="cmpBtPanel">
+                        <div class="cp-header cp-header--bt">
+                            <span class="cp-icon">🌳</span>
+                            <span class="cp-title">Backtracking</span>
+                            <span class="cp-badge" id="cmpBtWinner" style="display:none;">🏆 Winner</span>
+                        </div>
+                        <div class="cp-return">
+                            <span class="cp-return-label">Return</span>
+                            <span class="cp-return-value" id="cmpBtReturn">-</span>
+                        </div>
+                        <div class="viz-section" style="margin-top:1rem;">
+                            <h3 class="viz-title">Decision Tree</h3>
+                            <div class="tree-legend">
+                                <span class="legend-dot legend-root"></span><span>Root</span>
+                                <span class="legend-dot legend-best"></span><span>Best</span>
+                                <span class="legend-dot legend-rejected"></span><span>Rejected</span>
+                            </div>
+                            <div class="tree-container tree-container--compact">
+                                <div id="cmpTreeCanvas" class="tree-canvas"></div>
+                            </div>
+                            <div id="cmpBestPathSummary" class="best-path-summary" style="display:none;"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </section>
+
     </main>
     <script src="script.js"></script>
 </body>

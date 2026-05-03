@@ -1,10 +1,15 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
+import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.', static_url_path='')
 CORS(app)
 
-MAX_TREE_NODES = 100  # Safety cap to avoid long runtimes
+@app.route('/')
+def index():
+    return send_from_directory('.', 'index.html')
+
+MAX_TREE_NODES = 120  # Safety cap to avoid long runtimes
 
 
 def run_greedy(investable, time_horizon, fds):
@@ -25,43 +30,75 @@ def run_greedy(investable, time_horizon, fds):
 
 
 def run_backtracking(investable, time_horizon, fds):
-    tree = []
-    best = {"path": [], "value": round(investable, 2)}
+    """
+    Returns (nodes, edges, best_path_ids, best_value)
 
+    nodes  – list of {id, parent_id, label, fd, value, depth, complete}
+    edges  – list of {from_id, to_id}
+    best_path_ids – ordered list of node IDs on the optimal path
+    best_value – float, the highest return found
+    """
     eligible_fds = [fd for fd in fds if fd['duration'] <= time_horizon]
 
-    def backtrack(remaining_time, current_amount, path):
-        if len(tree) >= MAX_TREE_NODES:
+    nodes = []
+    edges = []
+    node_counter = [0]
+
+    # best tracker
+    best = {"value": round(investable, 2), "path_ids": []}
+
+    def make_node(parent_id, fd_label, value, depth, complete):
+        nid = node_counter[0]
+        node_counter[0] += 1
+        nodes.append({
+            "id": nid,
+            "parent_id": parent_id,
+            "fd": fd_label,
+            "value": round(value, 2),
+            "depth": depth,
+            "complete": complete
+        })
+        if parent_id is not None:
+            edges.append({"from_id": parent_id, "to_id": nid})
+        return nid
+
+    # Create root node
+    root_id = make_node(None, "Start", investable, 0, time_horizon == 0)
+
+    def backtrack(parent_id, remaining_time, current_amount, depth, path_ids):
+        nonlocal best
+        if len(nodes) >= MAX_TREE_NODES:
             return
 
-        label_path = [f"{fd['duration']}Y {round(fd['rate'] * 100, 1)}%" for fd in path]
-
-        # Record this node in the exploration tree
-        tree.append({
-            "path": label_path,
-            "value": round(current_amount, 2),
-            "complete": remaining_time == 0
-        })
-
-        # Update best solution if this is the highest return found so far
+        # Update best if this leaf is better
         if current_amount > best["value"]:
-            best["path"] = label_path[:]
             best["value"] = round(current_amount, 2)
+            best["path_ids"] = path_ids[:]
 
-        # Try each eligible FD for the remaining time
         for fd in eligible_fds:
             if fd['duration'] > remaining_time:
                 continue
-            if len(tree) >= MAX_TREE_NODES:
+            if len(nodes) >= MAX_TREE_NODES:
                 return
 
+            new_time = remaining_time - fd['duration']
             interest = current_amount * fd['rate'] * fd['duration']
-            path.append(fd)
-            backtrack(remaining_time - fd['duration'], current_amount + interest, path)
-            path.pop()
+            new_amount = current_amount + interest
+            label = f"{fd['duration']}Y {round(fd['rate'] * 100, 1)}%"
+            complete = new_time == 0
 
-    backtrack(time_horizon, investable, [])
-    return tree, best
+            nid = make_node(parent_id, label, new_amount, depth + 1, complete)
+            path_ids.append(nid)
+            backtrack(nid, new_time, new_amount, depth + 1, path_ids)
+            path_ids.pop()
+
+    backtrack(root_id, time_horizon, investable, 0, [root_id])
+
+    # If no FD fits, best path is just root
+    if not best["path_ids"]:
+        best["path_ids"] = [root_id]
+
+    return nodes, edges, best["path_ids"], best["value"]
 
 
 @app.route('/optimize', methods=['POST'])
@@ -81,13 +118,17 @@ def optimize():
     investable = total_amount - emergency_fund
 
     if mode == 'backtracking':
-        tree, best = run_backtracking(investable, time_horizon, fds)
-        if not tree:
+        nodes, edges, best_path_ids, best_value = run_backtracking(
+            investable, time_horizon, fds
+        )
+        if not nodes:
             return jsonify({'error': 'No FD fits within the given time horizon.'}), 400
         return jsonify({
             "strategy": "backtracking",
-            "best": best,
-            "tree": tree
+            "nodes": nodes,
+            "edges": edges,
+            "best_path_ids": best_path_ids,
+            "best_value": best_value
         }), 200
 
     else:  # default: greedy
