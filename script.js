@@ -110,14 +110,14 @@ async function animateSteps(logEl, steps, cardMap, investable) {
   logEl.innerHTML = '';
   Object.values(cardMap).forEach(c => c.className = 'fd-card');
   appendStep(logEl, `💰 Investable: ₹${investable.toLocaleString()}`, 'info');
-  await sleep(500);
+  await sleep(300);
   for (let i = 0; i < steps.length; i++) {
     const s = steps[i];
     if (cardMap[s.fd]) cardMap[s.fd].classList.add('fd-card--selected');
     appendStep(logEl, `Step ${i+1}: ${s.fd} → ₹${s.allocated.toLocaleString()}`, 'selected');
-    await sleep(650);
+    await sleep(300);
     appendStep(logEl, s.remaining > 0 ? `  Remaining: ₹${s.remaining.toLocaleString()}` : '  Fully allocated ✓', s.remaining > 0 ? 'info' : 'success');
-    await sleep(400);
+    await sleep(300);
   }
 }
 
