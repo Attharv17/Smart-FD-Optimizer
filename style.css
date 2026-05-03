@@ -1,13 +1,10 @@
-/* ============================================================
-   Smart FD Investment Planner — Fintech Theme
-   ============================================================ */
-
-/* ── Design Tokens ─────────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 :root {
-    /* Brand palette */
+
     --blue: #60a5fa;
+    --blue-mid: #818cf8;
+    --purple: #a78bfa;
     --blue-lt: rgba(96, 165, 250, 0.1);
     --blue-b: rgba(96, 165, 250, 0.2);
 
@@ -941,6 +938,7 @@ body {
     flex-direction: column;
     gap: .3rem;
     transition: box-shadow .25s, transform .22s;
+    min-width: 0;
 }
 
 .compare-panel:hover {
