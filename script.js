@@ -3,7 +3,6 @@ const API_URL = 'http://localhost:5000/optimize';
 // DOM refs
 const $ = id => document.getElementById(id);
 const calculateBtn = $('calculateBtn'), calcBtnLabel = $('calcBtnLabel');
-const addFdBtn = $('addFdBtn'), fdRowsContainer = $('fdRows');
 const loadingState = $('loadingState'), loadingMsg = $('loadingMsg');
 const errorBanner = $('errorBanner'), strategyBadge = $('strategyBadge');
 const resultArea = $('resultArea'), compareArea = $('compareArea');
@@ -44,27 +43,6 @@ document.querySelectorAll('.mode-card').forEach(card => {
 // Utilities
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-// FD rows
-let rowCount = 0;
-function addFdRow(dur = '', rate = '') {
-  const id = ++rowCount;
-  const row = document.createElement('div');
-  row.className = 'fd-row'; row.id = `fd-row-${id}`;
-  row.innerHTML = `<div class="fd-row-inputs">
-    <div class="input-group small"><label>Duration (yrs)</label>
-      <input type="number" class="fd-duration" placeholder="e.g. 3" min="1" step="1" value="${dur}"></div>
-    <div class="input-group small"><label>Rate (%)</label>
-      <input type="number" class="fd-rate" placeholder="e.g. 7.5" min="0.01" step="0.01" value="${rate}"></div>
-    <button class="btn-remove" type="button" onclick="removeFdRow(${id})">✕</button>
-  </div>`;
-  fdRowsContainer.appendChild(row);
-}
-function removeFdRow(id) {
-  if (fdRowsContainer.children.length <= 1) return showError('Need at least one FD option.');
-  $(`fd-row-${id}`)?.remove();
-}
-addFdRow(1, 7.0); addFdRow(3, 8.5);
-addFdBtn.addEventListener('click', () => addFdRow());
 
 // UI helpers
 function setLoading(on, msg = 'Contacting backend…') {
@@ -85,22 +63,18 @@ function showBadge(mode) {
   strategyBadge.style.display = 'inline-flex';
 }
 
-// Input collection
+// Input collection — reads hardcoded SBI preset cards
 function collectInputs() {
-  const amt  = parseFloat($('investmentAmount').value);
-  const yrs  = parseInt($('timeHorizon').value, 10);
-  const emg  = parseFloat($('emergencyFund').value) || 0;
+  const amt = parseFloat($('investmentAmount').value);
+  const yrs = parseInt($('timeHorizon').value, 10);
+  const emg = parseFloat($('emergencyFund').value) || 0;
   if (isNaN(amt) || amt <= 0) throw new Error('Enter a valid investment amount.');
   if (isNaN(yrs) || yrs <= 0) throw new Error('Enter a valid time horizon.');
   if (emg < 0 || emg >= amt)  throw new Error('Emergency fund must be ≥ 0 and < total amount.');
-  const fds = [];
-  fdRowsContainer.querySelectorAll('.fd-duration').forEach((el, i) => {
-    const dur  = parseInt(el.value, 10);
-    const rate = parseFloat(fdRowsContainer.querySelectorAll('.fd-rate')[i].value);
-    if (isNaN(dur) || dur <= 0)          throw new Error(`FD ${i+1}: invalid duration.`);
-    if (isNaN(rate) || rate <= 0 || rate >= 100) throw new Error(`FD ${i+1}: rate must be 0–100.`);
-    fds.push({ duration: dur, rate: rate / 100 });
-  });
+  const fds = [...document.querySelectorAll('.preset-fd-card')].map(card => ({
+    duration: parseInt(card.dataset.duration, 10),
+    rate:     parseFloat(card.dataset.rate) / 100
+  }));
   return { total_amount: amt, time_horizon: yrs, emergency_fund: emg, fds };
 }
 

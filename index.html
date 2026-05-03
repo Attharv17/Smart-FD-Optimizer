@@ -8,7 +8,7 @@
     <meta name="description"
         content="Optimize your fixed deposit returns with greedy and backtracking algorithms. Compare both side by side.">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -28,22 +28,22 @@
                 <p class="mode-picker__label">Choose Algorithm</p>
                 <div class="mode-cards" id="modeCards" role="group" aria-label="Algorithm mode">
 
-                    <button class="mode-card active" id="modeGreedy" data-mode="greedy" type="button">
+                    <button class="mode-card mode-card--greedy active" id="modeGreedy" data-mode="greedy" type="button">
                         <span class="mc-icon">⚡</span>
                         <span class="mc-name">Greedy</span>
-                        <span class="mc-desc">Fastest pick</span>
+                        <span class="mc-desc">Fast</span>
                     </button>
 
-                    <button class="mode-card" id="modeBacktrack" data-mode="backtracking" type="button">
+                    <button class="mode-card mode-card--bt" id="modeBacktrack" data-mode="backtracking" type="button">
                         <span class="mc-icon">🌳</span>
                         <span class="mc-name">Backtracking</span>
-                        <span class="mc-desc">Optimal search</span>
+                        <span class="mc-desc">Optimal</span>
                     </button>
 
-                    <button class="mode-card" id="modeCompare" data-mode="compare" type="button">
+                    <button class="mode-card mode-card--cmp" id="modeCompare" data-mode="compare" type="button">
                         <span class="mc-icon">⚖️</span>
                         <span class="mc-name">Compare</span>
-                        <span class="mc-desc">Side-by-side</span>
+                        <span class="mc-desc">Both</span>
                     </button>
 
                 </div>
@@ -69,13 +69,37 @@
                 </div>
             </div>
 
-            <!-- FD options -->
+            <!-- FD preset cards -->
             <div class="options-section">
                 <div class="options-header">
                     <h3>FD Options</h3>
-                    <button id="addFdBtn" class="btn-ghost" type="button">+ Add Row</button>
+                    <span class="preset-tag">SBI Fixed Rates</span>
                 </div>
-                <div id="fdRows"></div>
+                <div class="preset-fd-grid" id="presetFdGrid">
+
+                    <div class="preset-fd-card" data-duration="1" data-rate="6.8">
+                        <span class="pfd-icon">🏦</span>
+                        <span class="pfd-duration">1 Year</span>
+                        <span class="pfd-rate">6.8%</span>
+                        <span class="pfd-label">SBI Rate</span>
+                    </div>
+
+                    <div class="preset-fd-card" data-duration="3" data-rate="7.0">
+                        <span class="pfd-icon">🏦</span>
+                        <span class="pfd-duration">3 Years</span>
+                        <span class="pfd-rate">7.0%</span>
+                        <span class="pfd-label">SBI Rate</span>
+                    </div>
+
+                    <div class="preset-fd-card preset-fd-card--best" data-duration="5" data-rate="7.5">
+                        <span class="pfd-icon">💰</span>
+                        <span class="pfd-duration">5 Years</span>
+                        <span class="pfd-rate">7.5%</span>
+                        <span class="pfd-label">SBI Rate</span>
+                        <span class="pfd-best-badge">Best Return</span>
+                    </div>
+
+                </div>
             </div>
 
             <button id="calculateBtn" class="btn-primary" type="button">
