@@ -69,37 +69,13 @@
                 </div>
             </div>
 
-            <!-- FD preset cards -->
+            <!-- FD options -->
             <div class="options-section">
                 <div class="options-header">
                     <h3>FD Options</h3>
-                    <span class="preset-tag">SBI Fixed Rates</span>
+                    <button id="addFdBtn" class="btn-ghost" type="button">+ Add Row</button>
                 </div>
-                <div class="preset-fd-grid" id="presetFdGrid">
-
-                    <div class="preset-fd-card" data-duration="1" data-rate="6.8">
-                        <span class="pfd-icon">🏦</span>
-                        <span class="pfd-duration">1 Year</span>
-                        <span class="pfd-rate">6.8%</span>
-                        <span class="pfd-label">SBI Rate</span>
-                    </div>
-
-                    <div class="preset-fd-card" data-duration="3" data-rate="7.0">
-                        <span class="pfd-icon">🏦</span>
-                        <span class="pfd-duration">3 Years</span>
-                        <span class="pfd-rate">7.0%</span>
-                        <span class="pfd-label">SBI Rate</span>
-                    </div>
-
-                    <div class="preset-fd-card preset-fd-card--best" data-duration="5" data-rate="7.5">
-                        <span class="pfd-icon">💰</span>
-                        <span class="pfd-duration">5 Years</span>
-                        <span class="pfd-rate">7.5%</span>
-                        <span class="pfd-label">SBI Rate</span>
-                        <span class="pfd-best-badge">Best Return</span>
-                    </div>
-
-                </div>
+                <div id="fdRows"></div>
             </div>
 
             <button id="calculateBtn" class="btn-primary" type="button">

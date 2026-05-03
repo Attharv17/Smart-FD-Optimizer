@@ -933,119 +933,58 @@ body {
     .mode-cards { grid-template-columns: 1fr 1fr; }
 }
 
-/* ── Preset FD tag (replaces "Add Row" button) ──────────────── */
-.preset-tag {
-    font-size: .72rem;
-    font-weight: 700;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: var(--blue);
-    background: var(--blue-lt);
-    border: 1.5px solid var(--blue-b);
-    padding: .28rem .75rem;
-    border-radius: 999px;
-}
-
-/* ── Preset FD grid ─────────────────────────────────────────── */
-.preset-fd-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: .85rem;
-}
-
-@media (max-width: 560px) {
-    .preset-fd-grid { grid-template-columns: 1fr; }
-}
-
-/* ── Preset FD card — base ──────────────────────────────────── */
-.preset-fd-card {
-    position: relative;
+/* ── Dynamic FD Rows ────────────────────────────────────────── */
+#fdRows {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: .3rem;
-    padding: 1.25rem 1rem 1rem;
-    background: #fff;
-    border: 2px solid var(--border);
-    border-radius: var(--r-lg);
-    text-align: center;
-    cursor: default;
-    transition: box-shadow .25s, transform .22s, border-color .22s;
-    user-select: none;
+    gap: .6rem;
 }
 
-.preset-fd-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, .1);
-    border-color: var(--blue-b);
+.fd-row-inputs {
+    display: flex;
+    align-items: flex-end;
+    gap: .6rem;
 }
 
-/* ── Preset FD card — "Best" highlight ──────────────────────── */
-.preset-fd-card--best {
-    border-color: var(--green);
-    background: linear-gradient(160deg, #f0fdf4 0%, #ecfdf5 100%);
-    box-shadow: 0 4px 20px rgba(5, 150, 105, .18);
-}
+.input-group.small { flex: 1; }
 
-.preset-fd-card--best:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 28px rgba(5, 150, 105, .28);
-    border-color: var(--green);
-}
-
-/* ── Preset FD card — content ───────────────────────────────── */
-.pfd-icon {
-    font-size: 1.8rem;
-    margin-bottom: .2rem;
-    display: inline-block;
-    transition: transform .25s ease;
-}
-
-.preset-fd-card:hover .pfd-icon {
-    transform: scale(1.1) translateY(-2px);
-}
-
-.pfd-duration {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: -.01em;
-}
-
-.pfd-rate {
-    font-size: 1.8rem;
-    font-weight: 800;
+.btn-ghost {
+    background: transparent;
     color: var(--blue);
-    letter-spacing: -.03em;
-    line-height: 1;
-}
-
-.preset-fd-card--best .pfd-rate {
-    color: var(--green);
-}
-
-.pfd-label {
-    font-size: .65rem;
+    border: 1.5px solid var(--blue-b);
+    padding: .45rem .95rem;
+    border-radius: var(--r-sm);
+    font-family: inherit;
+    font-size: .85rem;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .08em;
-    color: var(--muted);
-    margin-top: .1rem;
+    cursor: pointer;
+    transition: background .18s, border-color .18s, transform .18s, box-shadow .18s;
 }
 
-/* ── "★ Highest" badge ─────────────────────────────────────── */
-.pfd-best-badge {
-    position: absolute;
-    top: -.65rem;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: .65rem;
-    font-weight: 700;
-    letter-spacing: .06em;
-    white-space: nowrap;
-    padding: .22rem .65rem;
-    border-radius: 999px;
-    background: linear-gradient(135deg, var(--green) 0%, #10b981 100%);
-    color: #fff;
-    box-shadow: 0 2px 8px rgba(5, 150, 105, .35);
+.btn-ghost:hover {
+    background: var(--blue-lt);
+    border-color: var(--blue);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, .12);
+}
+
+.btn-remove {
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+    border-radius: var(--r-sm);
+    width: 2.6rem;
+    height: 2.6rem;
+    cursor: pointer;
+    font-size: 1.05rem;
+    flex-shrink: 0;
+    transition: background .15s, transform .15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-remove:hover {
+    background: #fecaca;
+    transform: scale(1.08);
 }
