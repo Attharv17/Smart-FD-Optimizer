@@ -90,19 +90,13 @@
             <!-- Results header with strategy badge -->
             <div class="results-header">
                 <h2>Results</h2>
-                <span id="strategyBadge" class="strategy-badge" style="display:none;"></span>
+                <span id="strategyBadge" class="strategy-badge hidden"></span>
             </div>
 
-            <!-- Loading -->
-            <div id="loadingState" class="loading-state" style="display:none;">
-                <div class="spinner"></div>
-                <span id="loadingMsg">Contacting backend…</span>
-            </div>
-
-            <div id="errorBanner" class="error-banner" style="display:none;"></div>
+            <div id="errorBanner" class="error-banner hidden"></div>
 
             <!-- ── Single-mode result ──────────────────────── -->
-            <div id="resultArea" style="display:none;">
+            <div id="resultArea" class="hidden">
 
                 <!-- Summary stats row -->
                 <div class="stat-row" id="singleStats">
@@ -131,7 +125,7 @@
                 </div>
 
                 <!-- Backtracking tree viz -->
-                <div class="viz-section" id="treeSection" style="display:none;">
+                <div class="viz-section hidden" id="treeSection">
                     <h3 class="viz-title">Decision Tree Exploration</h3>
                     <div class="tree-legend">
                         <span class="legend-dot legend-root"></span><span>Root</span>
@@ -142,13 +136,13 @@
                     <div id="treeContainer" class="tree-container">
                         <div id="treeCanvas" class="tree-canvas"></div>
                     </div>
-                    <div id="bestPathSummary" class="best-path-summary" style="display:none;"></div>
+                    <div id="bestPathSummary" class="best-path-summary hidden"></div>
                 </div>
 
             </div>
 
             <!-- ── Compare mode result ────────────────────── -->
-            <div id="compareArea" style="display:none;">
+            <div id="compareArea" class="hidden">
 
                 <div class="compare-stat-row">
                     <div class="stat-pill">
@@ -168,13 +162,13 @@
                         <div class="cp-header cp-header--greedy">
                             <span class="cp-icon">⚡</span>
                             <span class="cp-title">Greedy</span>
-                            <span class="cp-badge" id="cmpGreedyWinner" style="display:none;">🏆 Winner</span>
+                            <span class="cp-badge hidden" id="cmpGreedyWinner">🏆 Winner</span>
                         </div>
                         <div class="cp-return">
                             <span class="cp-return-label">Return</span>
                             <span class="cp-return-value" id="cmpGreedyReturn">-</span>
                         </div>
-                        <div class="viz-section" style="margin-top:1rem;">
+                        <div class="viz-section mt-1">
                             <h3 class="viz-title">FD Cards</h3>
                             <div id="cmpFdCards" class="fd-cards"></div>
                         </div>
@@ -189,13 +183,13 @@
                         <div class="cp-header cp-header--bt">
                             <span class="cp-icon">🌳</span>
                             <span class="cp-title">Backtracking</span>
-                            <span class="cp-badge" id="cmpBtWinner" style="display:none;">🏆 Winner</span>
+                            <span class="cp-badge hidden" id="cmpBtWinner">🏆 Winner</span>
                         </div>
                         <div class="cp-return">
                             <span class="cp-return-label">Return</span>
                             <span class="cp-return-value" id="cmpBtReturn">-</span>
                         </div>
-                        <div class="viz-section" style="margin-top:1rem;">
+                        <div class="viz-section mt-1">
                             <h3 class="viz-title">Decision Tree</h3>
                             <div class="tree-legend">
                                 <span class="legend-dot legend-root"></span><span>Root</span>
@@ -205,7 +199,7 @@
                             <div class="tree-container tree-container--compact">
                                 <div id="cmpTreeCanvas" class="tree-canvas"></div>
                             </div>
-                            <div id="cmpBestPathSummary" class="best-path-summary" style="display:none;"></div>
+                            <div id="cmpBestPathSummary" class="best-path-summary hidden"></div>
                         </div>
                     </div>
 
