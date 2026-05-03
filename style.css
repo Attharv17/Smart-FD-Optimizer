@@ -22,7 +22,7 @@
     --muted: #A0A7B8;
 
     /* Surface */
-    --card: rgba(255, 255, 255, 0.05);
+    --card: rgba(255, 255, 255, 0.04);
     --border: rgba(255, 255, 255, 0.08);
     --input-bg: rgba(0, 0, 0, 0.2);
 
@@ -42,12 +42,12 @@
     --r-xl: 20px;
     --r-lg: 16px;
     --r-md: 12px;
-    --r-sm: 10px;
+    --r-sm: 8px;
     --r-xs: 6px;
 
     /* Shadows */
-    --sh-card: 0 8px 32px rgba(0, 0, 0, 0.2);
-    --sh-hover: 0 12px 40px rgba(0, 0, 0, 0.3);
+    --sh-card: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --sh-hover: 0 15px 40px rgba(0, 0, 0, 0.4);
     --sh-focus: 0 0 0 3.5px rgba(96, 165, 250, 0.3);
     --sh-btn: 0 4px 18px rgba(129, 140, 248, 0.3);
     --sh-btn-h: 0 6px 24px rgba(129, 140, 248, 0.4);
@@ -90,13 +90,13 @@ body {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 40px; /* 40px spacing between sections */
 }
 
 /* ── Header ─────────────────────────────────────────────────── */
 .header {
     text-align: center;
-    padding-bottom: .75rem;
+    padding-bottom: 8px;
 }
 
 .header-icon {
@@ -120,9 +120,9 @@ body {
 }
 
 .header h1 {
-    font-size: 2.2rem;
-    font-weight: 800;
-    letter-spacing: -.04em;
+    font-size: 32px; /* 32px bold title */
+    font-weight: 700;
+    letter-spacing: -.02em;
     background: var(--bg-accent);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -132,7 +132,7 @@ body {
 
 .header p {
     color: var(--muted);
-    font-size: .95rem;
+    font-size: 14px; /* 14px regular body text */
     font-weight: 400;
     margin: .55rem auto 0;
     max-width: 480px;
@@ -143,14 +143,14 @@ body {
 .card {
     background: var(--card);
     border-radius: var(--r-lg);
-    padding: 2.25rem 2.5rem;
+    padding: 24px; /* 24px padding inside cards */
     box-shadow: var(--sh-card);
     border: 1px solid var(--border);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     display: flex;
     flex-direction: column;
-    gap: 1.75rem;
+    gap: 32px; /* 32px spacing between inner elements */
     transition: box-shadow .3s ease, transform .3s ease;
 }
 
@@ -160,9 +160,7 @@ body {
 }
 
 .divider {
-    border: none;
-    border-top: 1.5px solid var(--border);
-    opacity: .7;
+    display: none; /* Removed to keep UI minimal and clean */
 }
 
 /* ── Mode picker ────────────────────────────────────────────── */
@@ -302,8 +300,8 @@ body {
 }
 
 .input-group label {
-    font-size: .78rem;
-    font-weight: 600;
+    font-size: 14px; /* 14px medium label */
+    font-weight: 500;
     color: var(--text-sec);
     letter-spacing: .01em;
 }
@@ -349,10 +347,10 @@ body {
 }
 
 .options-header h3 {
-    font-size: .88rem;
-    font-weight: 700;
+    font-size: 18px; /* 18px semi-bold section title */
+    font-weight: 600;
     color: var(--text);
-    letter-spacing: -.01em;
+    letter-spacing: .01em;
 }
 
 
@@ -364,12 +362,12 @@ body {
     background-position: left center;
     color: #fff;
     border: none;
-    padding: 1rem 1.5rem;
+    padding: 12px 20px; /* larger padding */
     border-radius: 14px;
     font-family: inherit;
-    font-weight: 700;
-    font-size: .98rem;
-    letter-spacing: .01em;
+    font-weight: 700; /* bold text */
+    font-size: 16px;
+    letter-spacing: .02em;
     cursor: pointer;
     transition: background-position .35s ease, transform .18s ease, box-shadow .18s ease, filter .2s, opacity .2s;
     box-shadow: var(--sh-accent);
@@ -412,10 +410,10 @@ body {
 }
 
 .results-header h2 {
-    font-size: 1.15rem;
-    font-weight: 700;
+    font-size: 18px; /* 18px semi-bold */
+    font-weight: 600;
     color: var(--text);
-    letter-spacing: -.02em;
+    letter-spacing: .01em;
 }
 
 /* ── Result Fade-in Animation ───────────────────────────────── */
@@ -576,7 +574,7 @@ body {
 }
 
 .stat-value {
-    font-size: 1.2rem;
+    font-size: 30px; /* 30px large bold return */
     font-weight: 800;
     color: var(--text);
 }
@@ -1008,7 +1006,7 @@ body {
 }
 
 .cp-return-value {
-    font-size: 1.35rem;
+    font-size: 30px; /* 30px large bold return */
     font-weight: 800;
 }
 
